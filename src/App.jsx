@@ -1,6 +1,6 @@
-import Home from "../Home";
-import SuccessProof from "../SuccessProof";
-import ContactForm from "../ContactForm";
+import Home from "../Home.jsx";
+import SuccessProof from "../SuccessProof.jsx";
+import ContactForm from "../ContactForm.jsx";
 
 export default function App() {
   return (
