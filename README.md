@@ -59,6 +59,14 @@ VITE_EMAILJS_TEMPLATE_ID
 VITE_EMAILJS_PUBLIC_KEY
 ```
 
+If you want the contact form to submit automatically through Formspree, create a Formspree form and add this environment variable in GitHub repository secrets and Vercel:
+
+```text
+VITE_FORMSPREE_FORM_ID
+```
+
+If `VITE_FORMSPREE_FORM_ID` is not set, the form will use an email client fallback and still address messages to `andresa1897@ggswp.com`.
+
 ## Custom domain
 
 After the first deploy:
