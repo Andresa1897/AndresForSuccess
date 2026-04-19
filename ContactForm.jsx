@@ -2,21 +2,17 @@
  * ContactForm.js — Andres G. Alvarez
  * Single unified intake form
  *
- * Submission: EmailJS → andresa1897@ggswp.com
+ * Submission: Formspree if VITE_FORMSPREE_FORM_ID is set, otherwise Formsubmit.co
+ * Receives submissions at andresa1897@ggswp.com
  *
- * ENV VARS REQUIRED (set in .env):
- *   VITE_EMAILJS_SERVICE_ID
- *   VITE_EMAILJS_TEMPLATE_ID
- *   VITE_EMAILJS_PUBLIC_KEY
- *
- * Alternatively, swap the submission block for Formspree.
+ * ENV VARS (optional):
+ *   VITE_FORMSPREE_FORM_ID
  *
  * Stack: React · Tailwind CSS · Framer Motion
  */
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// import emailjs from "@emailjs/browser"; // Uncomment when @emailjs/browser is installed
 
 /* ─────────────────────────────────────────
    CONSTANTS
@@ -40,6 +36,9 @@ const FORM_INITIAL = {
 
 const EMAIL = "andresa1897@ggswp.com";
 const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID;
+const FORM_ENDPOINT = FORMSPREE_FORM_ID
+  ? `https://formspree.io/f/${FORMSPREE_FORM_ID}`
+  : `https://formsubmit.co/ajax/${encodeURIComponent(EMAIL)}`;
 
 /* ─────────────────────────────────────────
    FIELD WRAPPER
@@ -144,34 +143,27 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      if (FORMSPREE_FORM_ID) {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: form.name,
-            email: form.email,
-            topic: form.topic,
-            message: form.message,
-            _replyto: form.email,
-          }),
-        });
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          topic: form.topic,
+          message: form.message,
+          _replyto: form.email,
+          _subject: `Contact from ${form.name} — ${form.topic}`,
+        }),
+      });
 
-        if (!res.ok) {
-          const errorBody = await res.json().catch(() => null);
-          throw new Error(
-            errorBody?.error || `Formspree submission failed with status ${res.status}`
-          );
-        }
-      } else {
-        const subject = encodeURIComponent(`Contact from ${form.name} — ${form.topic}`);
-        const body = encodeURIComponent(
-          `Name: ${form.name}\nEmail: ${form.email}\nTopic: ${form.topic}\n\n${form.message}`
+      if (!res.ok) {
+        const errorBody = await res.json().catch(() => null);
+        throw new Error(
+          errorBody?.error || `Form submission failed with status ${res.status}`
         );
-        window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
       }
 
       setStatus("success");
