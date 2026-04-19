@@ -1,9 +1,16 @@
 /**
- * SuccessProof.js — Andres G. Alvarez
- * "Proof of Work" — Interactive system-level storytelling
+ * SuccessProof.js — Andres G. Alvarez (UPDATED)
+ * "Proof of Work" — Strategic Intelligence Professional Edition
  *
- * Each case study follows:
- *   Stakes → System Designed → Outcome → Client ROI Translation
+ * Updates applied per prompttest.docx:
+ *   ✅ Refined experience copy (Problem-Solution-Outcome framework)
+ *   ✅ Micro-Metrics row under each role (2-second scannability)
+ *   ✅ [TAG] uppercase labels preceding each bullet
+ *   ✅ Bold metrics + inline tool keywords throughout
+ *   ✅ IC-CAE Fellowship (FIU / ODNI) added as chapter 4
+ *   ✅ YouTube embed in Esports chapter
+ *   ✅ Image placeholder slots (swap with real assets when ready)
+ *   ✅ "Mission" statement per chapter
  *
  * Stack: React · Tailwind CSS · Framer Motion
  */
@@ -12,9 +19,77 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 /* ─────────────────────────────────────────
-   CASE STUDIES (MANDATORY EXPERIENCE)
+   MICRO-METRICS ROW
 ───────────────────────────────────────── */
-const caseStudies = [
+function MicroMetrics({ metrics, accent }) {
+  return (
+    <div className="flex flex-wrap gap-px border border-[#1c2540] mb-8 overflow-hidden">
+      {metrics.map((m, i) => (
+        <div
+          key={i}
+          className="flex-1 min-w-[110px] px-4 py-4 bg-[#0d1428]/80 text-center"
+        >
+          <p
+            className="text-xl font-light mb-0.5"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", color: accent }}
+          >
+            {m.value}
+          </p>
+          <p className="text-[10px] tracking-[0.15em] uppercase text-[#8a9ab5] leading-4">{m.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   TAGGED BULLET
+───────────────────────────────────────── */
+function TagBullet({ tag, accent, children }) {
+  return (
+    <li className="flex items-start gap-3 py-3 border-b border-[#1c2540] last:border-0">
+      <span
+        className="shrink-0 mt-0.5 text-[9px] tracking-[0.18em] font-bold px-2 py-1 border whitespace-nowrap"
+        style={{ color: accent, borderColor: `${accent}30` }}
+      >
+        {tag}
+      </span>
+      <p className="text-[#8a9ab5] text-sm leading-6">{children}</p>
+    </li>
+  );
+}
+
+/* ─────────────────────────────────────────
+   YOUTUBE EMBED
+───────────────────────────────────────── */
+function YouTubeEmbed({ videoId, caption }) {
+  return (
+    <div className="border border-[#1c2540] overflow-hidden">
+      <div className="relative" style={{ paddingBottom: "56.25%" }}>
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={caption}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <div className="px-4 py-3 border-t border-[#1c2540]">
+        <p className="text-[#8a9ab5] text-xs tracking-wider">{caption}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   CASE STUDIES DATA
+───────────────────────────────────────── */
+const B = ({ children }) => (
+  <strong className="text-[#c4cedf] font-medium">{children}</strong>
+);
+
+const cases = [
   {
     id: "boeing",
     period: "2024 – Present",
@@ -22,22 +97,27 @@ const caseStudies = [
     role: "Senior GRC Specialist",
     location: "St. Louis, MO",
     tag: "Defense · GRC · CMMC",
-    headline: "Governing 31 Lab Capabilities Under Federal Scrutiny",
-    stakes:
-      "A Tier-1 defense contractor with 31 Lab Test capabilities needed to achieve and sustain compliance with DFARS and CMMC requirements — frameworks that carry serious contractual and national security implications. Regulatory failure was not an option.",
-    system: [
-      "Designed automated executive KPI dashboards surfacing real-time cyber maturity and residual risk to C-suite and board-level stakeholders",
-      "Authored RACI matrices, Statements of Work, and Memorandums of Agreement governing cross-functional accountability",
-      "Led end-to-end remediation initiatives in direct partnership with Corporate Audit — aligning security posture with both operational and strategic investment cycles",
-      "Established enterprise asset alignment framework for DFARS/CMMC readiness across diverse technical environments",
+    mission: "Governing 31 Lab Test capabilities to meet Tier-1 federal defense mandates.",
+    accent: "#b8965a",
+    micro: [
+      { value: "31",       label: "Lab Capabilities" },
+      { value: "100%",     label: "Audit Resolution" },
+      { value: "CMMC 2/3", label: "Compliance Tier" },
+    ],
+    bullets: [
+      { tag: "GOVERNANCE",           text: <p>Engineered a strategic oversight framework for 31 Lab capabilities, aligning national defense-critical infrastructure with <B>DFARS / CMMC</B> regulations.</p> },
+      { tag: "PROJECT ARCHITECTURE", text: <p>Orchestrated cybersecurity project lifecycles via <B>JIRA</B> and <B>BVC</B>, synchronizing technical milestones with enterprise cost and schedule targets.</p> },
+      { tag: "AUDIT LEADERSHIP",     text: <p>Directed remediation systems with Corporate Audit, converting high-stakes findings into structured action plans with <B>100% timely resolution</B>.</p> },
+      { tag: "EXECUTIVE VISIBILITY", text: <p>Designed and automated real-time compliance KPI dashboards, translating complex technical risk into financial variables for <B>C-suite and board</B> stakeholders.</p> },
+      { tag: "STRUCTURAL INTEGRITY", text: <p>Authored foundational governance architecture (<B>RACI, SoW, MOA</B>) to codify cross-functional accountability across the full enterprise asset landscape.</p> },
     ],
     outcomes: [
-      { metric: "31", label: "Lab capabilities governed" },
-      { metric: "CMMC", label: "Compliance posture achieved" },
-      { metric: "C-Suite", label: "Dashboard visibility delivered" },
+      { metric: "31",     label: "Capabilities governed" },
+      { metric: "CMMC",   label: "Federal compliance achieved" },
+      { metric: "C-Suite", label: "Dashboard visibility" },
     ],
-    roi: "Boards and executives could finally see residual risk as a financial variable — not just a technical checkbox. Regulatory confidence translated into protected contract value and faster audit cycles.",
-    accentColor: "#b8965a",
+    roi: "Boards and executives could finally see residual risk as a financial variable — not a technical checkbox. Regulatory confidence translated into protected contract value and faster audit cycles.",
+    media: null,
   },
   {
     id: "univision",
@@ -46,22 +126,26 @@ const caseStudies = [
     role: "Information Security Engineer",
     location: "Miami, FL",
     tag: "Automation · IR · Zero Trust",
-    headline: "Engineering Automation That Cut Incidents by 50%",
-    stakes:
-      "A national media enterprise was experiencing mounting incident volume with manual response workflows creating dangerous detection-to-containment delays. Every minute of undetected exposure risked viewer data and broadcast system integrity.",
-    system: [
-      "Architected an enterprise Incident Response automation framework from the ground up — integrating SIEM detection logic with automated response playbooks",
-      "Built CASB-based data leakage prevention pipelines with automated blocking, eliminating human latency from critical containment workflows",
-      "Designed and deployed zero-trust Mobile Device Management via Microsoft Intune across 300+ endpoint devices",
-      "Developed OSINT-powered threat intelligence pipelines to enable proactive threat hunting before events escalated",
+    mission: "Automating threat detection and incident response for global media assets.",
+    accent: "#3dd6c0",
+    micro: [
+      { value: "50%",  label: "Phishing Reduction" },
+      { value: "30%",  label: "Faster Response" },
+      { value: "300+", label: "MDM Assets" },
+    ],
+    bullets: [
+      { tag: "THREAT AUTOMATION",    text: <p>Architected an <B>OSINT-based</B> phishing defense system (<B>Python</B>) that neutralized <B>50%</B> of monthly incident volume through automated adversary infrastructure blocking.</p> },
+      { tag: "RESPONSE OPTIMIZATION",text: <p>Developed custom <B>LogRhythm SIEM</B> correlation logic and <B>CASB</B> detection policies, achieving a <B>30% reduction</B> in response time with automated data leakage prevention.</p> },
+      { tag: "INCIDENT FRAMEWORKS",  text: <p>Built a custom IR automation engine implementing playbooks that accelerated MTTR by <B>10%</B> through automated evidence collection and triage.</p> },
+      { tag: "ENDPOINT SECURITY",    text: <p>Orchestrated <B>Microsoft Intune</B> MDM for <B>300+</B> global devices, enforcing identity-centric Zero-Trust compliance and automated device health monitoring.</p> },
     ],
     outcomes: [
-      { metric: "30%",  label: "Faster incident response" },
-      { metric: "50%",  label: "Monthly incident reduction" },
-      { metric: "300+", label: "Devices secured via zero trust" },
+      { metric: "50%",  label: "Incident reduction" },
+      { metric: "30%",  label: "Faster response" },
+      { metric: "300+", label: "Devices secured" },
     ],
     roi: "Automation replaced reaction. Security became a predictive operation instead of a firefighting function — freeing engineering capacity for architecture rather than triage.",
-    accentColor: "#3dd6c0",
+    media: null,
   },
   {
     id: "walmart",
@@ -70,22 +154,54 @@ const caseStudies = [
     role: "Cyber Risk Specialist",
     location: "Bentonville, AR",
     tag: "Cloud · Vulnerability Mgmt · Scale",
-    headline: "Managing Risk Across One Million Cloud Assets",
-    stakes:
-      "Walmart's multi-cloud estate — spanning Azure and GCP — carried over one million assets at any given time. Vulnerability prioritization at this scale without a disciplined, business-impact-driven model produces noise, not action.",
-    system: [
-      "Directed enterprise vulnerability management across 1M+ assets using business-impact-driven risk models — ensuring remediation effort was allocated where it mattered most",
-      "Led enterprise response to Log4j and other critical CVEs, coordinating cross-functional remediation under pressure and public scrutiny",
-      "Built custom integrations between Brinqa (risk orchestration) and Jira (engineering workflow) — closing the loop between risk prioritization and actual remediation execution",
-      "Designed SLA frameworks that compressed Critical Risk timelines, improving accountability and speed across engineering teams",
+    mission: "Managing risk at enterprise scale across a 1,000,000+ asset multi-cloud environment.",
+    accent: "#b8965a",
+    micro: [
+      { value: "1M+", label: "Cloud Assets" },
+      { value: "50+", label: "Log4j Artifacts Neutralized" },
+      { value: "20%", label: "SLA Reduction" },
+    ],
+    bullets: [
+      { tag: "SCALE MANAGEMENT",    text: <p>Governed multi-cloud (<B>Azure / GCP</B>) vulnerability management across <B>1M+ assets</B>, implementing risk-based prioritization to maximize remediation ROI.</p> },
+      { tag: "CRISIS RESPONSE",     text: <p>Engineered an automated <B>Log4j</B> detection and response system, neutralizing vulnerabilities across <B>50+</B> business-critical cloud artifacts during the global exploit.</p> },
+      { tag: "DATA INTEGRITY",      text: <p>Built a custom <B>REGEX</B> engine to automate asset ownership mapping for 2,000+ devices, bridging raw telemetry and CMDB accuracy.</p> },
+      { tag: "WORKFLOW INTEGRATION",text: <p>Built a <B>Brinqa–Jira</B> automation engine closing the risk lifecycle loop, reducing Critical Risk SLA response times by <B>20%</B>.</p> },
     ],
     outcomes: [
-      { metric: "1M+", label: "Assets under management" },
-      { metric: "20%", label: "Critical SLA improvement" },
+      { metric: "1M+",        label: "Assets under management" },
+      { metric: "20%",        label: "SLA improvement" },
       { metric: "Azure + GCP", label: "Multi-cloud coverage" },
     ],
     roi: "Risk moved from a quarterly report to a real-time operational input. Engineering teams stopped guessing what to fix first — they followed a system built on actual business consequence.",
-    accentColor: "#b8965a",
+    media: null,
+  },
+  {
+    id: "iccae",
+    period: "Jun 2021 – Apr 2022",
+    company: "FIU Jack D. Gordon Institute",
+    role: "IC-CAE Cyber Threat Intelligence Fellow",
+    location: "Florida International University · ODNI-Funded",
+    tag: "Intelligence · Geopolitics · APT",
+    mission: "Translating complex technical threats into actionable intelligence at the intersection of geopolitics and cybersecurity.",
+    accent: "#c4cedf",
+    micro: [
+      { value: "ODNI", label: "Funded Program" },
+      { value: "3",    label: "Nation-State Actors Analyzed" },
+      { value: "11mo", label: "Intensive Fellowship" },
+    ],
+    bullets: [
+      { tag: "GEOPOLITICAL ANALYSIS", text: <p>Specialized in the <B>Russian Federation's</B> cyber landscape, analyzing the nexus between emerging threats and legislation to predict regional shifts in digital policy.</p> },
+      { tag: "STRATEGIC RESEARCH",    text: <p>Collaborated on multi-disciplinary teams to evaluate <B>Mexico's geopolitical influence</B> on U.S. foreign policy — a holistic view of North American security dynamics.</p> },
+      { tag: "THREAT BRIEFING",       text: <p>Authored technical intelligence briefs on <B>Chinese APT groups</B>, presenting findings to faculty and subject matter experts to advance collective understanding of state-sponsored capabilities.</p> },
+      { tag: "OSINT MASTERY",         text: <p>Applied advanced <B>OSINT</B> techniques to surface open-source signals on adversary infrastructure, feeding directly into policy-relevant threat intelligence products.</p> },
+    ],
+    outcomes: [
+      { metric: "ODNI",   label: "Intelligence community seal" },
+      { metric: "APT",    label: "Nation-state analysis depth" },
+      { metric: "Policy", label: "Executive-level briefs" },
+    ],
+    roi: "An ODNI-funded program is a stamp of approval from the highest levels of the U.S. intelligence apparatus. It positions Andres not just as a technical operator, but as a Strategic Intelligence Professional who understands that cyber threats are motivated by global politics — not just code.",
+    media: null,
   },
   {
     id: "esports",
@@ -94,26 +210,37 @@ const caseStudies = [
     role: "Professional Competitor",
     location: "North America",
     tag: "Pressure · Discipline · Leadership",
-    headline: "Performing at National Level Where Failure Is Public",
-    stakes:
-      "Call of Duty World Championship Qualifier. Elimination-bracket format. The pressure of competing publicly at the national level — where every decision is visible, every error is permanent, and the margin between winning and losing is razor thin.",
-    system: [
-      "Built mental frameworks for high-pressure decision-making that transferred directly into enterprise crisis response and incident command",
-      "Led team coordination under real-time adversarial conditions — developing communication habits that now define how I run executive briefings",
-      "Developed a discipline model around consistent preparation, performance review, and adaptive execution that underpins every consulting engagement",
+    mission: "Competing at the national level where every decision is visible, every error is permanent, and the margin between winning and losing is razor thin.",
+    accent: "#8a9ab5",
+    micro: [
+      { value: "$50K+",    label: "Competitive Earnings" },
+      { value: "4 Years",  label: "Elite Competition" },
+      { value: "National", label: "CoD World Qualifier" },
+    ],
+    bullets: [
+      { tag: "MENTAL SYSTEMS",      text: <p>Built pressure-management frameworks under elimination-bracket conditions that now define how I lead <B>enterprise incident response</B> and executive crisis briefings.</p> },
+      { tag: "TEAM COMMAND",        text: <p>Led real-time team coordination under adversarial conditions — developing communication habits that transfer directly into <B>C-suite stakeholder management</B>.</p> },
+      { tag: "DISCIPLINED EXECUTION",text: <p>Built a deliberate performance model around consistent preparation, review, and adaptive execution — the same discipline underpinning every consulting engagement today.</p> },
     ],
     outcomes: [
-      { metric: "$50K+", label: "Competitive earnings" },
+      { metric: "$50K+",   label: "Competitive earnings" },
       { metric: "4 Years", label: "Elite-level competition" },
-      { metric: "National", label: "North American Qualifier" },
+      { metric: "National", label: "CoD Championship Qualifier" },
     ],
-    roi: "Elite performance is not natural talent — it is deliberate system design. The habits built here are what allow me to stay composed inside high-stakes cybersecurity incidents and executive conversations.",
-    accentColor: "#8a9ab5",
+    roi: "Elite performance is deliberate system design, not natural talent. The habits built in competitive arenas are what allow calm execution inside high-stakes cybersecurity incidents and board-level conversations.",
+    media: (
+      <div className="space-y-4">
+        <YouTubeEmbed
+          videoId="ewTRlgSEv7w"
+          caption="Competitive Gaming Highlight Reel — North American Qualifier"
+        />
+      </div>
+    ),
   },
 ];
 
 /* ─────────────────────────────────────────
-   PROOF CARD (EXPANDED)
+   CASE DETAIL PANEL
 ───────────────────────────────────────── */
 function CaseDetail({ cs }) {
   return (
@@ -126,18 +253,18 @@ function CaseDetail({ cs }) {
       className="border border-[#1c2540] bg-[#0a0f1e] p-8 md:p-12"
     >
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-10 pb-8 border-b border-[#1c2540]">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6 pb-6 border-b border-[#1c2540]">
         <div>
-          <p className="text-xs tracking-[0.25em] uppercase mb-2" style={{ color: cs.accentColor }}>
+          <p className="text-xs tracking-[0.25em] uppercase mb-2" style={{ color: cs.accent }}>
             {cs.tag}
           </p>
           <h3
-            className="text-2xl md:text-3xl font-light text-[#f0f4f9] mb-2 max-w-xl leading-tight"
+            className="text-2xl md:text-3xl font-light text-[#f0f4f9] mb-2 leading-tight"
             style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
           >
-            {cs.headline}
+            {cs.role}
           </h3>
-          <p className="text-[#8a9ab5] text-sm">{cs.role} · {cs.location}</p>
+          <p className="text-[#8a9ab5] text-sm">{cs.location}</p>
         </div>
         <div className="text-left md:text-right shrink-0">
           <p className="text-[#f0f4f9] text-sm font-light">{cs.company}</p>
@@ -145,52 +272,39 @@ function CaseDetail({ cs }) {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-10">
-        {/* Stakes + System */}
-        <div className="md:col-span-2 space-y-8">
-          {/* Stakes */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-5 h-px" style={{ background: cs.accentColor }} />
-              <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: cs.accentColor }}>
-                The Stakes
-              </p>
-            </div>
-            <p className="text-[#8a9ab5] text-sm leading-7">{cs.stakes}</p>
-          </div>
+      {/* Mission */}
+      <div className="mb-6 border-l-2 pl-4" style={{ borderColor: `${cs.accent}40` }}>
+        <p className="text-[9px] tracking-[0.3em] uppercase text-[#8a9ab5] mb-1">The Mission</p>
+        <p className="text-[#c4cedf] text-sm leading-6 italic">{cs.mission}</p>
+      </div>
 
-          {/* System */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-5 h-px" style={{ background: cs.accentColor }} />
-              <p className="text-[10px] tracking-[0.3em] uppercase" style={{ color: cs.accentColor }}>
-                The System
-              </p>
-            </div>
-            <ul className="space-y-3">
-              {cs.system.map((s, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span
-                    className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
-                    style={{ background: cs.accentColor, opacity: 0.6 }}
-                  />
-                  <p className="text-[#8a9ab5] text-sm leading-6">{s}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+      {/* Micro-metrics */}
+      <MicroMetrics metrics={cs.micro} accent={cs.accent} />
+
+      {/* 3-col body */}
+      <div className="grid md:grid-cols-3 gap-10">
+        {/* Bullets — left 2 cols */}
+        <div className="md:col-span-2">
+          <p className="text-[9px] tracking-[0.3em] uppercase mb-4" style={{ color: cs.accent }}>
+            System Designed
+          </p>
+          <ul>
+            {cs.bullets.map((b, i) => (
+              <TagBullet key={i} tag={b.tag} accent={cs.accent}>{b.text}</TagBullet>
+            ))}
+          </ul>
         </div>
 
-        {/* Outcomes + ROI */}
+        {/* Sidebar — right col */}
         <div className="space-y-6">
           {/* Outcome metrics */}
           <div className="border border-[#1c2540] p-6 space-y-5">
-            <p className="text-[10px] tracking-[0.3em] uppercase text-[#8a9ab5]">Outcomes</p>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-[#8a9ab5]">Outcomes</p>
             {cs.outcomes.map((o) => (
               <div key={o.metric}>
                 <p
                   className="text-3xl font-light mb-1"
-                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", color: cs.accentColor }}
+                  style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", color: cs.accent }}
                 >
                   {o.metric}
                 </p>
@@ -199,11 +313,9 @@ function CaseDetail({ cs }) {
             ))}
           </div>
 
-          {/* ROI Translation */}
-          <div className="border-l-2 pl-4" style={{ borderColor: `${cs.accentColor}40` }}>
-            <p className="text-[10px] tracking-[0.3em] uppercase text-[#8a9ab5] mb-3">
-              What This Means for You
-            </p>
+          {/* ROI */}
+          <div className="border-l-2 pl-4" style={{ borderColor: `${cs.accent}40` }}>
+            <p className="text-[9px] tracking-[0.3em] uppercase text-[#8a9ab5] mb-3">What This Means for You</p>
             <p className="text-[#8a9ab5] text-sm leading-6 italic">{cs.roi}</p>
           </div>
 
@@ -211,22 +323,30 @@ function CaseDetail({ cs }) {
           <a
             href="#contact"
             className="block text-center py-3 border text-xs tracking-[0.2em] uppercase transition-all duration-300 hover:opacity-80"
-            style={{ borderColor: `${cs.accentColor}40`, color: cs.accentColor }}
+            style={{ borderColor: `${cs.accent}40`, color: cs.accent }}
           >
             Apply This to My Situation →
           </a>
         </div>
       </div>
+
+      {/* Media (video / images) */}
+      {cs.media && (
+        <div className="mt-10 pt-8 border-t border-[#1c2540]">
+          <p className="text-[9px] tracking-[0.3em] uppercase text-[#8a9ab5] mb-4">Media</p>
+          {cs.media}
+        </div>
+      )}
     </motion.div>
   );
 }
 
 /* ─────────────────────────────────────────
-   SUCCESS PROOF SECTION (EXPORT)
+   EXPORT
 ───────────────────────────────────────── */
 export default function SuccessProof() {
   const [activeId, setActiveId] = useState("boeing");
-  const active = caseStudies.find((c) => c.id === activeId);
+  const active = cases.find((c) => c.id === activeId);
 
   return (
     <section
@@ -234,18 +354,14 @@ export default function SuccessProof() {
       className="relative py-28 md:py-36 px-6 overflow-hidden"
       style={{ background: "#0d1428" }}
     >
-      {/* Ambient */}
       <div
         aria-hidden
         className="absolute top-0 right-0 w-[500px] h-[500px] opacity-[0.04] pointer-events-none"
-        style={{
-          background: "radial-gradient(circle at top right, #b8965a, transparent 70%)",
-          filter: "blur(80px)",
-        }}
+        style={{ background: "radial-gradient(circle at top right, #b8965a, transparent 70%)", filter: "blur(80px)" }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Section header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -265,30 +381,30 @@ export default function SuccessProof() {
             <span className="italic text-[#b8965a]">Solve a Real Problem.</span>
           </h2>
           <p className="text-[#8a9ab5] text-base mt-5 max-w-xl leading-7">
-            Select a chapter. Each one shows the stakes, the architecture, and the
-            measurable result — translated into what it means for you.
+            Select a chapter. Each shows the mission, the architecture, and the measurable
+            result — translated into what it means for you.
           </p>
         </motion.div>
 
-        {/* Selector tabs */}
+        {/* Chapter tabs */}
         <div className="flex flex-wrap gap-3 mb-8">
-          {caseStudies.map((cs) => (
+          {cases.map((c) => (
             <button
-              key={cs.id}
-              onClick={() => setActiveId(cs.id)}
-              className={`px-5 py-3 text-xs tracking-[0.15em] uppercase border transition-all duration-300 ${
-                activeId === cs.id
+              key={c.id}
+              onClick={() => setActiveId(c.id)}
+              className={`px-5 py-3 text-xs tracking-[0.13em] uppercase border transition-all duration-300 text-left ${
+                activeId === c.id
                   ? "border-[#b8965a]/60 text-[#f0f4f9] bg-[#b8965a]/10"
                   : "border-[#1c2540] text-[#8a9ab5] hover:border-[#2a3352] hover:text-[#c4cedf]"
               }`}
             >
-              <span className="block text-[10px] tracking-widest mb-0.5 opacity-60">{cs.period}</span>
-              {cs.company}
+              <span className="block text-[9px] tracking-widest mb-0.5 opacity-50">{c.period}</span>
+              {c.company}
             </button>
           ))}
         </div>
 
-        {/* Case detail panel */}
+        {/* Detail panel */}
         <AnimatePresence mode="wait">
           {active && <CaseDetail key={active.id} cs={active} />}
         </AnimatePresence>
@@ -302,20 +418,20 @@ export default function SuccessProof() {
           className="mt-8 border border-[#1c2540] p-8"
         >
           <p className="text-[#b8965a] text-[10px] tracking-[0.3em] uppercase mb-5">
-            Technical Competencies
+            Technical Toolkit — Applied in Context
           </p>
           <div className="flex flex-wrap gap-2">
             {[
               "Python", "PowerShell", "LogRhythm SIEM", "Microsoft Intune",
               "SailPoint", "Tenable Nessus", "Brinqa", "ServiceNow",
               "Azure", "GCP", "AWS", "CASB", "Zero Trust Architecture",
-              "OSINT", "Jira",
-            ].map((tool) => (
+              "OSINT", "JIRA", "BVC", "REGEX Automation",
+            ].map((t) => (
               <span
-                key={tool}
+                key={t}
                 className="px-3 py-1.5 border border-[#1c2540] text-[#8a9ab5] text-[11px] tracking-wider hover:border-[#2a3352] hover:text-[#c4cedf] transition-all duration-300"
               >
-                {tool}
+                {t}
               </span>
             ))}
           </div>

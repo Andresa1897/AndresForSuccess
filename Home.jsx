@@ -31,6 +31,8 @@ const COLORS = {
   tealDim:  "#1a7a6e",
 };
 
+const EMAIL = "andresa1897@ggswp.com";
+
 /* ─────────────────────────────────────────
    FADE-UP ANIMATION WRAPPER
 ───────────────────────────────────────── */
@@ -771,7 +773,7 @@ function Footer() {
           {["LinkedIn", "Email"].map((l) => (
             <a
               key={l}
-              href={l === "Email" ? "mailto:andresa1897@ggswp.com" : "#"}
+              href={l === "Email" ? `mailto:${EMAIL}` : "#"}
               className="text-[#2a3352] text-xs tracking-wider hover:text-[#8a9ab5] transition-colors duration-300 uppercase"
             >
               {l}

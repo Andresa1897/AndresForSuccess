@@ -38,6 +38,9 @@ const FORM_INITIAL = {
   message: "",
 };
 
+const EMAIL = "andresa1897@ggswp.com";
+const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID;
+
 /* ─────────────────────────────────────────
    FIELD WRAPPER
 ───────────────────────────────────────── */
@@ -141,29 +144,35 @@ export default function ContactForm() {
     setStatus("loading");
 
     try {
-      /*
-       * ── EmailJS Integration ──────────────────────────────
-       * Uncomment the block below once @emailjs/browser is installed
-       * and environment variables are set.
-       *
-       * await emailjs.sendForm(
-       *   import.meta.env.VITE_EMAILJS_SERVICE_ID,
-       *   import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-       *   formRef.current,
-       *   import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-       * );
-       *
-       * ── Formspree Alternative ───────────────────────────
-       * const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
-       *   method: "POST",
-       *   headers: { "Content-Type": "application/json", Accept: "application/json" },
-       *   body: JSON.stringify({ ...form, _replyto: form.email }),
-       * });
-       * if (!res.ok) throw new Error("Formspree error");
-       *
-       * ── DEV SIMULATION (remove in production) ──────────
-       */
-      await new Promise((r) => setTimeout(r, 1200)); // simulated latency
+      if (FORMSPREE_FORM_ID) {
+        const res = await fetch(`https://formspree.io/f/${FORMSPREE_FORM_ID}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            topic: form.topic,
+            message: form.message,
+            _replyto: form.email,
+          }),
+        });
+
+        if (!res.ok) {
+          const errorBody = await res.json().catch(() => null);
+          throw new Error(
+            errorBody?.error || `Formspree submission failed with status ${res.status}`
+          );
+        }
+      } else {
+        const subject = encodeURIComponent(`Contact from ${form.name} — ${form.topic}`);
+        const body = encodeURIComponent(
+          `Name: ${form.name}\nEmail: ${form.email}\nTopic: ${form.topic}\n\n${form.message}`
+        );
+        window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+      }
 
       setStatus("success");
       setForm(FORM_INITIAL);
@@ -276,13 +285,13 @@ export default function ContactForm() {
                 Direct Contact
               </p>
               <a
-                href="mailto:andresa1897@ggswp.com"
+                href={`mailto:${EMAIL}`}
                 className="flex items-center gap-3 text-[#8a9ab5] text-sm hover:text-[#c4cedf] transition-colors duration-300 group"
               >
                 <span className="w-8 h-8 border border-[#1c2540] flex items-center justify-center text-xs text-[#b8965a] group-hover:border-[#b8965a]/40 transition-colors duration-300">
                   @
                 </span>
-                andresa1897@ggswp.com
+                {EMAIL}
               </a>
               <div className="flex items-center gap-3 text-[#8a9ab5] text-sm">
                 <span className="w-8 h-8 border border-[#1c2540] flex items-center justify-center text-xs text-[#b8965a]">
@@ -336,10 +345,10 @@ export default function ContactForm() {
                         There was an error sending your message. Please try again or
                         email{" "}
                         <a
-                          href="mailto:andresa1897@ggswp.com"
+                          href={`mailto:${EMAIL}`}
                           className="underline"
                         >
-                          andresa1897@ggswp.com
+                          {EMAIL}
                         </a>{" "}
                         directly.
                       </motion.div>
