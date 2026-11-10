@@ -1,84 +1,41 @@
-# Personal Branding Site
+# andres-grc-specialist
 
-This project is a Vite + React + Tailwind single-page site prepared for GitHub Pages and Vercel deployment.
+Personal site for Andres Alvarez. Vite + React, deployed on Vercel.
 
-## Local development
+## Run locally
 
-```powershell
-npm.cmd install
-npm.cmd run dev
+```bash
+npm install
+npm run dev
 ```
 
-## Production build
+## Edit the homepage
 
-```powershell
-npm.cmd run build
+All homepage copy (outcomes, experience, skills, links) is in `src/content/site.js`.
+
+To offer a résumé download, add `public/resume.pdf` and set `resumeUrl: "/resume.pdf"` in that file.
+
+## Write a blog post
+
+1. Create a Markdown file in `src/content/posts/`, for example `my-first-post.md`. The file name becomes the URL: `/writing/my-first-post`.
+2. Start it with this header:
+
+```md
+---
+title: My first post
+date: 2026-11-15
+summary: One or two sentences shown in the post list.
+tags: [GRC, Career]
+draft: false
+---
+
+Your writing here. Use ## for section headings; they build the "On this page" menu.
 ```
 
-## Project notes
+3. Commit and push. Vercel publishes it automatically.
 
-- Framework: `Vite`
-- Output directory: `dist`
-- Vercel config: `vercel.json`
-- Contact form env template: `.env.example`
+Posts with `draft: true` show up when you run `npm run dev` but are hidden on the live site. The three starter posts are drafts: rewrite them in your own words, or delete them.
 
-## Deploy with GitHub Pages
+## Contact form
 
-1. Create a new GitHub repository.
-2. Push the contents of this folder to the `main` branch.
-3. In GitHub, open `Settings -> Pages`.
-4. Under `Build and deployment`, set `Source` to `GitHub Actions`.
-5. Push to `main` again if GitHub asks for a fresh run.
-6. Your site will publish at:
-
-```text
-https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPOSITORY_NAME/
-```
-
-The workflow lives at `.github/workflows/deploy.yml` and automatically builds with the correct repository base path for GitHub Pages.
-
-## Deploy with GitHub and Vercel
-
-1. Create a new GitHub repository.
-2. Upload the contents of this folder to that repository.
-3. In Vercel, click `Add New...` -> `Project`.
-4. Import the GitHub repository.
-5. Confirm these settings:
-   - Framework preset: `Vite`
-   - Build command: `npm run build`
-   - Output directory: `dist`
-6. Deploy the project.
-
-## Environment variables
-
-If you enable EmailJS later, add these in Vercel under `Settings -> Environment Variables`:
-
-```text
-VITE_EMAILJS_SERVICE_ID
-VITE_EMAILJS_TEMPLATE_ID
-VITE_EMAILJS_PUBLIC_KEY
-```
-
-If you want the contact form to submit automatically through Formspree, create a Formspree form and add this environment variable in GitHub repository secrets and Vercel:
-
-```text
-VITE_FORMSPREE_FORM_ID
-```
-
-If `VITE_FORMSPREE_FORM_ID` is not set, the form will use an email client fallback and still address messages to `andresa1897@ggswp.com`.
-
-## Custom domain
-
-After the first deploy:
-
-1. Open the Vercel project.
-2. Go to `Settings -> Domains`.
-3. Add your exact custom domain.
-4. Update DNS at your domain registrar using the records Vercel shows you.
-
-Typical DNS patterns are:
-
-- Apex domain like `example.com`: usually an `A` record pointing to `76.76.21.21`
-- Subdomain like `www.example.com`: usually a `CNAME` pointing to `cname.vercel-dns.com`
-
-Always use the exact DNS values Vercel gives for your project.
+The form posts to Formsubmit (to the email in `site.js`) by default. To use Formspree instead, set `VITE_FORMSPREE_FORM_ID` in Vercel's environment variables.

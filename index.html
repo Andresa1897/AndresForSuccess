@@ -3,21 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Andres G. Alvarez | Systems & Success</title>
-    <meta
-      name="description"
-      content="Executive personal brand site for Andres G. Alvarez covering cybersecurity leadership, consulting, and strategic advisory work."
-    />
-    <meta property="og:title" content="Andres G. Alvarez | Systems & Success" />
-    <meta
-      property="og:description"
-      content="Cybersecurity leadership, strategic advisory, and systems-driven consulting."
-    />
+    <title>Andres Alvarez | Cyber GRC & Risk Leader</title>
+    <meta name="description" content="Andres Alvarez leads Cyber GRC programs at Boeing: CMMC 2.0, NIST SP 800-171, FAIR risk quantification and agentic AI for compliance. Writing on risk, security and careers." />
+    <meta property="og:title" content="Andres Alvarez | Cyber GRC & Risk Leader" />
+    <meta property="og:description" content="Turning complex cyber risk into decisions leaders can act on. Experience, outcomes and writing." />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#0a0f1e" />
+    <meta name="theme-color" content="#eceee9" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1b2d" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script>
+      try {
+        var t = localStorage.getItem("theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
-  </html>
+</html>
